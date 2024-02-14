@@ -1,0 +1,38 @@
+Drop table  nbu.stg_experian_name_segment;
+create table nbu.stg_experian_name_segment
+(
+
+
+    customer_id varchar(50),
+full_name varchar(max),
+dob varchar(20),
+gender varchar(10)
+
+)
+
+COPY "digital-revenue".nbu.stg_experian_name_segment FROM 's3://angelone-nbu/experian/scrub_2023-12-05/cinp3694ange_06122023_070754AM_AngelOne_Experian_Base_2023-12-05_RPT_AR_ENQ_SCORE_CP/name_dob.txt' IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' FORMAT CSV DELIMITER as '|' QUOTE '"' IGNOREHEADER 1 BLANKSASNULL emptyasnull REGION AS 'ap-south-1'
+
+
+Drop table nbu.experian_name_segment;
+create table nbu.experian_name_segment
+(
+id INT IDENTITY(1,1),
+response_id varchar(255),
+customer_id varchar(max),
+full_name varchar(max),
+dob date,
+gender integer,inserted_at date, updated_at date ,
+filename varchar(255)
+
+)diststyle auto
+
+
+insert into nbu.experian_name_segment(response_id,customer_id,full_name,
+dob,gender,inserted_at,updated_at,filename)
+SELECT response_id,a.customer_id,full_name,to_date(dob ,'DD/MM/YYYY') dob,  cast(gender as int)   ,getdate(),getdate(),'scrub_2023-12-05'
+from  nbu.stg_experian_name_segment  a left join nbu.experian_master_table b on (a.customer_id = b.customer_id) where gender is not null
+
+select * from nbu.experian_name_segment
+
+select distinct cast(gender as int)
+from nbu.stg_experian_name_segment  a left join nbu.experian_master_table b on (a.customer_id = b.customer_id) where gender is not null

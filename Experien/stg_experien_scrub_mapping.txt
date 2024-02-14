@@ -1,0 +1,27 @@
+Drop table nbu.stg_experien_scrub_mapping_temp
+CREATE TABLE nbu.stg_experien_scrub_mapping_temp (
+    CUSTOMER_ID INT,
+    party_code VARCHAR(255),
+    DateProcessed DATE,
+    DateUploaded DATE,
+    DataProvider VARCHAR(255)
+);
+
+CREATE TABLE nbu.stg_experien_scrub_mapping (
+    CUSTOMER_ID INT,
+    party_code VARCHAR(255),
+    DateProcessed DATE,
+    DateUploaded DATE,
+    DataProvider VARCHAR(255),
+    filename VARCHAR(255)
+);
+
+
+
+
+COPY  "digital-revenue"."nbu"."stg_experien_scrub_mapping_temp" FROM 's3://angelone-nbu/experian/scrub_2023-12-05/scrub_mapping_2023-12-05.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+truncate table "digital-revenue"."nbu"."stg_experien_scrub_mapping";
+Insert into "digital-revenue"."nbu"."stg_experien_scrub_mapping"
+select * , 'scrub_2023-12-05'  from nbu.stg_experien_scrub_mapping_temp

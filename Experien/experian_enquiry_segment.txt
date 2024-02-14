@@ -1,0 +1,46 @@
+Drop table nbu.stg_experian_enquiry_segment;
+create table nbu.stg_experian_enquiry_segment
+(
+
+ 
+customer_id varchar(max),
+nq_purp_cd  varchar(max),
+nq_date   varchar(max),
+m_sub_id  varchar(max),
+amount    varchar(max)
+
+
+
+)diststyle auto
+
+
+COPY "digital-revenue".nbu.stg_experian_enquiry_segment FROM 's3://angelone-nbu/experian/scrub_2023-12-05/cinp3694ange_06122023_070754AM_AngelOne_Experian_Base_2023-12-05_RPT_AR_ENQ_SCORE_CP/enquiry.txt' IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' FORMAT as DELIMITER as '|'  IGNOREHEADER 1 BLANKSASNULL emptyasnull REGION AS 'ap-south-1'
+
+Drop table nbu.experian_enquiry_segment;
+create table nbu.experian_enquiry_segment
+(
+id INT IDENTITY(1,1),
+response_id varchar(255),
+customer_id varchar(30),
+nq_purp_cd  integer,
+nq_date   date,
+m_sub_id  varchar(10),
+amount    bigint,
+inserted_at date,
+updated_at date ,
+filename varchar(255)
+
+
+
+)diststyle auto
+
+delete from nbu.experian_enquiry_segment
+
+insert into nbu.experian_enquiry_segment(response_id,customer_id,nq_purp_cd,nq_date,m_sub_id ,amount,inserted_at,
+updated_at,filename)
+select response_id ,a.customer_id,cast(nq_purp_cd as integer) nq_purp_cd,
+to_date(nq_date ,'DD/MM/YYYY')  nq_date , m_sub_id,cast(amount as bigint) amount,
+getdate() inserted_at, getdate() updated_at,'scrub_2023-12-05'  from nbu.stg_experian_enquiry_segment a left join nbu.experian_master_table b on (a.customer_id = b.customer_id)
+
+
+

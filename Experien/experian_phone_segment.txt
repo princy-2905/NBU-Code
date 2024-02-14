@@ -1,0 +1,32 @@
+Drop table nbu.stg_experian_phone_segment;
+create table nbu.stg_experian_phone_segment (
+
+customer_id varchar(50),
+ PHONE varchar(50),
+date_reported varchar(30)
+
+)
+
+COPY "digital-revenue".nbu.stg_experian_phone_segment FROM 's3://angelone-nbu/experian/scrub_2023-12-05/cinp3694ange_06122023_070754AM_AngelOne_Experian_Base_2023-12-05_RPT_AR_ENQ_SCORE_CP/phone.txt' IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' FORMAT CSV DELIMITER as '|' QUOTE '"' IGNOREHEADER 1 BLANKSASNULL emptyasnull REGION AS 'ap-south-1'
+
+select  customer_id, phone,to_date(date_reported,'DD/MM/YYYY') date_reported   from nbu.stg_experian_phone_segment
+
+Drop table nbu.experian_phone_segment;
+create table nbu.experian_phone_segment (
+id INT IDENTITY(1,1),
+response_id varchar(255),
+customer_id varchar(max),
+ PHONE varchar(20),
+date_reported date,
+inserted_at date,
+updated_at date,
+filename varchar(255)
+
+)
+insert into nbu.experian_phone_segment(response_id,customer_id,PHONE,
+date_reported,inserted_at,updated_at,filename)
+select response_id ,a.customer_id, phone,to_date(date_reported,'DD/MM/YYYY') date_reported ,getdate(),getdate()
+,'scrub_2023-12-05'
+  from nbu.stg_experian_phone_segment a left join nbu.experian_master_table b on (a.customer_id = b.customer_id)
+
+  select * from nbu.experian_phone_segment

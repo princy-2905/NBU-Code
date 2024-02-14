@@ -1,0 +1,83 @@
+Drop table nbu.stg_experian_master_table;
+create table nbu.stg_experian_master_table
+(
+
+CUSTOMER_ID varchar(MAX),
+party_code  varchar(MAX),
+created_at  date,
+process_date  date,
+upload_date date,
+dataprovider  varchar(MAX)
+
+)diststyle auto
+
+Insert into nbu.stg_experian_master_table
+with Customers as(
+
+select customer_id from nbu.stg_experian_trade_line_segment
+
+union
+
+select customer_id from nbu.stg_experian_score_segment
+
+union
+
+select customer_id from nbu.stg_experian_phone_segment
+
+union
+
+select customer_id from nbu.stg_experian_email_segment
+
+union
+
+select customer_id from nbu.stg_experian_name_segment
+
+union
+
+select customer_id from nbu.stg_experian_address_segment
+
+union
+
+select customer_id from nbu.stg_experian_id_segment
+
+union
+
+select customer_id from nbu.stg_experian_enquiry_segment
+
+)
+ select c.customer_id, b.party_code ,getdate() as created_at,b.dateprocessed,b.dateuploaded,b.dataprovider from Customers c left join nbu.stg_experien_scrub_mapping_temp b on c.customer_id = b.customer_id
+
+
+select * from nbu.stg_experian_master_table
+
+
+
+
+Drop table nbu.experian_master_table;
+create table nbu.experian_master_table
+(
+response_id varchar(255),
+CUSTOMER_ID varchar(max),
+party_code  varchar(255),
+created_at  date ,
+process_date date ,
+upload_date date,
+dataprovider  varchar(255),
+filename varchar(255)
+)diststyle auto
+
+select * from nbu.stg_experian_master_table
+
+truncate table nbu.experian_master_table;
+Insert into nbu.experian_master_table
+select 
+party_code || '-' || TO_CHAR(process_date, 'DDMMYYYY') || '-' || + customer_id ,
+cast(customer_id  as int) ,
+party_code ,
+getdate() as created_date,
+process_date,
+upload_date , 
+dataprovider , 
+'scrub_2023-12-05' from nbu.stg_experian_master_table
+
+select * from nbu.experian_master_table

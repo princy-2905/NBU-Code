@@ -1,0 +1,39 @@
+Drop table nbu.stg_experian_id_segment;
+create table nbu.stg_experian_id_segment
+(
+ customer_id varchar(50),
+pan varchar(50),
+passport varchar(50),
+voter_id varchar(50),
+uid varchar(50),
+ration_card varchar(50),
+driving_license varchar(50) 
+
+)diststyle auto
+
+truncate table  "digital-revenue".nbu.stg_experian_id_segment
+
+COPY "digital-revenue".nbu.stg_experian_id_segment FROM 's3://angelone-nbu/experian/scrub_2023-12-05/cinp3694ange_06122023_070754AM_AngelOne_Experian_Base_2023-12-05_RPT_AR_ENQ_SCORE_CP/id.txt' IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' FORMAT CSV DELIMITER as '|' QUOTE '"' IGNOREHEADER 1 BLANKSASNULL emptyasnull REGION AS 'ap-south-1'
+
+
+Drop table nbu.experian_id_segment;
+create table nbu.experian_id_segment
+(
+id INT IDENTITY(1,1),
+response_id varchar(255),
+ customer_id varchar(50),
+pan varchar(50),
+passport varchar(50),
+voter_id varchar(50),
+uid integer,
+ration_card varchar(50),
+driving_license varchar(50), inserted_at date, updated_at date,
+filename varchar(255)
+
+)diststyle auto
+
+insert into nbu.experian_id_segment(response_id,customer_id,pan,passport,voter_id,uid,ration_card,driving_license
+,inserted_at,updated_at,filename)
+select response_id , a.customer_id,pan,passport,voter_id,cast(uid as integer) uid,ration_card,driving_license ,
+getdate(), getdate(),'scrub_2023-12-05' from nbu.stg_experian_id_segment a left join nbu.experian_master_table b on (a.customer_id = b.customer_id)
+
