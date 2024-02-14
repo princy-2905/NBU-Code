@@ -1,0 +1,30 @@
+Drop table  nbu.cibil_identification_segment;
+create table nbu.cibil_identification_segment
+(
+response_id varchar(32),
+id varchar(100),
+memberreference int,
+id_type int not null,
+issue_date date,
+expiration_date date,
+enr_enq_id varchar(100),
+inserted_at date,
+updated_at date
+)
+
+
+
+insert into nbu.cibil_identification_segment
+select 
+response_id,
+ROW_NUMBER() over(order by response_id,a.memberreference,id_type),
+cast(a.memberreference as int),
+cast(id_type as int),
+to_date(LPAD(TRIM(BOTH ' ' FROM issue_date), 8, '0') , 'DDMMYYYY') as issue_date,
+to_date(LPAD(TRIM(BOTH ' ' FROM expiration_date), 8, '0') , 'DDMMYYYY') as expiration_date,
+enr_enq_id,getdate(),getdate() 
+from nbu.stg_cibil_data a left join nbu.cibil_master_table b on (a.memberreference = b.memberreference)
+where id_type is not null
+
+
+select count(*) from  nbu.cibil_identification_segment

@@ -1,0 +1,94 @@
+
+Drop table nbu.stg_scrub_mapping_temp;
+create table nbu.stg_scrub_mapping_temp(
+"MemberReference" int,
+"party_code" Varchar(32),
+"Date_Uploaded" Varchar(32),
+"Data_Provider" Varchar(32)
+)
+
+Drop table nbu.stg_scrub_mapping;
+create table nbu.stg_scrub_mapping(
+"MemberReference" int,
+"party_code" Varchar(32),
+"Date_Uploaded" varchar(32),
+"Data_Provider" Varchar(32),
+file_name varchar(max)
+)
+
+
+
+
+select  distinct("date uploaded") from nbu.stg_scrub_mapping
+
+ 
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp";
+
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub_2023-08-18/scrub_mapping_2023-08-17.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub_2023-08-18' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2023-11-11/scrub_mapping_2023-11-11.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2023-11-11' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2023-12-05/scrub_mapping_2023-12-05.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2023-12-05' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2024-01-09/scrub_mapping_49k_2024-01-04.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2024-01-09_49K' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2024-01-09/scrub_mapping_3l_2024-01-04.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL EMPTYASNULL
+
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2024-01-09_3L' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+truncate table "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2024-01-11/scrub_mapping_2024-01-08.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2024-01-11' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+truncate table nbu.stg_scrub_mapping_temp;
+COPY  "digital-revenue"."nbu"."stg_scrub_mapping_temp" FROM 's3://angelone-nbu/cibil/scrub-2024-01-30/scrub_mapping_2024-01-30.csv'
+IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role' DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+Insert into nbu.stg_scrub_mapping
+select *,'scrub-2024-01-30' from "digital-revenue"."nbu"."stg_scrub_mapping_temp"
+
+
+
+

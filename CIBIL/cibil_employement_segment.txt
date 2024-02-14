@@ -1,0 +1,51 @@
+
+
+select * from  nbu.cibil_employement_segment where response_id = 'V149219-18082023-138056'
+
+
+Drop table nbu.cibil_employement_segment;
+create table nbu.cibil_employement_segment
+(
+id int identity(1,1),
+response_id varchar(32),
+memberreference int,
+account_type_empseg integer not null,
+datereported_employment date,
+occupation_code integer ,
+income integer ,
+net_gross_indicator varchar(10) ,
+monthly_annual_indicator varchar(10) ,
+dateofentry_errorcode_em varchar(10) ,
+errorcode_em varchar(10) ,
+date_cibilremarkscode_em varchar(10) ,
+cibilremarkscode_em varchar(10) ,
+disputeremarkscode_em varchar(10) ,
+disputeremarkscode1_em varchar(10) ,
+disputeremarkscode2_em varchar(10) ,
+inserted_at date,
+updated_at date
+    
+)diststyle auto
+
+insert into nbu.cibil_employement_segment(response_id ,	memberreference ,	account_type_empseg ,	datereported_employment ,	occupation_code  ,	income  ,	net_gross_indicator  ,	monthly_annual_indicator  ,	dateofentry_errorcode_em  ,	errorcode_em  ,	date_cibilremarkscode_em  ,	cibilremarkscode_em  ,	disputeremarkscode_em  ,	disputeremarkscode1_em  ,	disputeremarkscode2_em  ,	inserted_at ,	updated_at 
+)
+select 
+response_id,
+cast(a.memberreference as int),
+cast ( account_type_empseg as integer ),
+to_date(LPAD(TRIM(BOTH ' ' FROM datereported_employment), 8, '0') , 'DDMMYYYY') as datereported_employment,
+cast ( occupation_code as integer ),
+cast ( income as integer ),
+cast ( net_gross_indicator as varchar(10) ),
+cast ( monthly_annual_indicator as varchar(10) ),
+cast ( dateofentry_errorcode_em as varchar(10) ),
+cast ( errorcode_em as varchar(10) ),
+cast ( date_cibilremarkscode_em as varchar(10) ),
+cast ( cibilremarkscode_em as varchar(10) ),
+cast ( disputeremarkscode_em as varchar(10) ),
+cast ( disputeremarkscode1_em as varchar(10) ),
+cast ( disputeremarkscode2_em as varchar(10) ),
+getdate(),
+getdate()
+from nbu.stg_cibil_data a left join nbu.cibil_master_table b on (a.memberreference = b.memberreference) and (a.filename = b.filename)
+where account_type_empseg is not null

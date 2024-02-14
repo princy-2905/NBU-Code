@@ -1,0 +1,23 @@
+Drop table  nbu.cibil_email_segment;
+create table  nbu.cibil_email_segment
+(
+id int identity(1,1) ,
+response_id varchar(32),
+memberreference int,
+email_id varchar(max),
+inserted_at date,
+updated_at date 
+);
+
+
+insert into nbu.cibil_email_segment(response_id ,memberreference ,email_id,inserted_at ,updated_at )
+select
+response_id,
+cast(a.memberreference as int),
+cast ( email_id as varchar(50) ),
+ getdate(),getdate()
+ from nbu.stg_cibil_data a left join nbu.cibil_master_table b on (a.memberreference = b.memberreference) and (a.filename = b.filename)
+where email_id is not null
+
+
+select * from  nbu.cibil_email_segment where response_id = 'V149219-18082023-138056'

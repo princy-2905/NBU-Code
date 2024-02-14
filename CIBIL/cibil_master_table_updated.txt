@@ -1,0 +1,53 @@
+Drop table nbu.cibil_master_table;
+create table nbu.cibil_master_table ( 
+id int identity(1,1),
+memberreference int,
+segment varchar(10),
+version varchar(max),
+enquirymemberid varchar(20),
+subjectreturncode varchar(max),
+enquirycontrolnumber varchar(30),
+dateprocessed date,
+timeprocessed varchar(max),
+inserted_at date,
+updated_at date,
+"date_uploaded" date,
+"data_provider" varchar(50),
+"party_code" varchar(50),
+filename varchar(50)
+)
+
+select * from nbu.stg_cibil_data 
+
+
+insert into nbu.cibil_master_table(memberreference ,	segment ,version ,	enquirymemberid ,	subjectreturncode ,	enquirycontrolnumber ,	dateprocessed ,	timeprocessed ,	inserted_at ,	updated_at ,	date_uploaded ,	data_provider ,	party_code ,	filename 
+)
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at ,filename
+from nbu.stg_cibil_data
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cte.inserted_at,cte.updated_at 
+ ,cast("date_uploaded" as date),"data_provider","party_code" ,cte.filename from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference"  and cte.filename = scrub.file_name
+ 
+
+
+ALTER TABLE nbu.cibil_master_table
+ADD COLUMN response_id VARCHAR(50);
+
+-- Step 2: Update the new column with the desired values
+UPDATE nbu.cibil_master_table
+SET response_id = party_code || '-' || TO_CHAR(dateprocessed, 'DDMMYYYY') || '-' || MemberReference;
+
+
+select * from nbu.cibil_master_table where response_id = 'V149219-18082023-138056'

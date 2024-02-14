@@ -1,0 +1,34 @@
+drop table nbu.cibil_address_segment;
+create table nbu.cibil_address_segment
+(
+     id int identity(1,1),
+     response_id varchar(32),
+    memberreference int,
+    address varchar(max) encode lzo,
+    statecode numeric encode az64,
+    pincode varchar(max) encode lzo,
+    address_cat int encode az64 not null ,
+    res_code int encode az64,
+    datereported_address date encode az64,
+    inserted_at date,
+     updated_at date 
+) DISTSTYLE AUTO;
+
+
+
+
+truncate table nbu.cibil_address_segment;
+insert into nbu.cibil_address_segment(response_id ,memberreference ,address ,statecode ,pincode ,address_cat  ,res_code ,datereported_address ,inserted_at ,updated_at  )
+select
+response_id,
+cast(a.memberreference as int),
+address ,
+cast(statecode as numeric) ,
+   regexp_replace(pincode, '[^0-9]', '')     ,
+cast( address_cat as numeric),
+cast( res_code as numeric),
+to_date(LPAD(TRIM(BOTH ' ' FROM datereported_address), 8, '0') , 'DDMMYYYY') as datereported_address,
+ getdate(),getdate()
+from nbu.stg_cibil_data a left join nbu.cibil_master_table b on (a.memberreference = b.memberreference) and (a.filename = b.filename)
+where datereported_address is not null 
+and address_cat is not null 

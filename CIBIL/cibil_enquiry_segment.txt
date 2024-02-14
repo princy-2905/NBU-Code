@@ -1,0 +1,38 @@
+Drop table nbu.cibil_enquiry_segment;
+create table nbu.cibil_enquiry_segment(
+id int identity(1,1) ,
+response_id varchar(32),
+memberreference int,
+dateofenquiry date ,
+enquiringmembershortname varchar(max) ,
+enquirypurpose varchar(max) not null ,
+enquiryamount integer ,
+disputeremarksline1 varchar(max) ,
+disputeremarksline2 varchar(max) ,
+disputeremarksline3 varchar(max) ,
+disputeremarksline4 varchar(max) ,
+disputeremarksline5 varchar(max) ,
+inserted_at date,
+updated_at date 
+)
+
+
+insert into nbu.cibil_enquiry_segment(     response_id ,	memberreference ,	dateofenquiry  ,	enquiringmembershortname  ,	enquirypurpose  ,	enquiryamount  ,	disputeremarksline1  ,	disputeremarksline2  ,	disputeremarksline3  ,	disputeremarksline4  ,	disputeremarksline5  ,	inserted_at ,	updated_at  )
+select 
+response_id,
+cast(a.memberreference as int),
+to_date(LPAD(TRIM(BOTH ' ' FROM dateofenquiry), 8, '0') , 'DDMMYYYY') as dateofenquiry,
+cast ( enquiringmembershortname as varchar(max) ),
+cast ( enquirypurpose as varchar(max) ),
+cast ( enquiryamount as integer ),
+cast ( disputeremarksline1 as varchar(max) ),
+cast ( disputeremarksline2 as varchar(max) ),
+cast ( disputeremarksline3 as varchar(max) ),
+cast ( disputeremarksline4 as varchar(max) ),
+cast ( disputeremarksline5 as varchar(max) ),
+getdate(),getdate()
+from nbu.stg_cibil_data a left join nbu.cibil_master_table b on (a.memberreference = b.memberreference)  and (a.filename = b.filename)
+where enquirypurpose is not null
+
+
+select * from  nbu.cibil_enquiry_segment where response_id = 'V149219-18082023-138056'

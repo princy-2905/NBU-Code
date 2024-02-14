@@ -1,0 +1,438 @@
+
+Drop table nbu.stg_cibil_data_temp;
+create table nbu.stg_cibil_data_temp ( 
+Segment varchar(max),
+Version varchar(max),
+MemberReference varchar(max),
+EnquiryMemberID varchar(max),
+SubjectReturnCode varchar(max),
+EnquiryControlNumber varchar(max),
+DateProcessed varchar(max),
+TimeProcessed varchar(max),
+name varchar(max),
+DateofBirth varchar(max),
+gender varchar(max),
+ID_Type varchar(max),
+ID_Number varchar(max),
+Issue_Date varchar(max),
+Expiration_Date varchar(max),
+Enr_Enq_id varchar(max),
+Telephone varchar(max),
+Tel_Extn varchar(max),
+Tel_Type varchar(max),
+Enr_Enq_pt varchar(max),
+email_id varchar(max),
+account_type_empseg varchar(max),
+datereported_employment varchar(max),
+occupation_code varchar(max),
+income varchar(max),
+net_gross_indicator varchar(max),
+monthly_annual_indicator varchar(max),
+DateofEntry_ErrorCode_em varchar(max),
+ErrorCode_em varchar(max),
+Date_CIBILRemarksCode_em varchar(max),
+CIBILRemarksCode_em varchar(max),
+DisputeRemarksCode_em varchar(max),
+DisputeRemarksCode1_em varchar(max),
+DisputeRemarksCode2_em varchar(max),
+Acct_number varchar(max),
+scorename varchar(max),
+ScoreCardName varchar(max),
+ScoreCardVersion varchar(max),
+ScoreDate varchar(max),
+score varchar(max),
+ExclusionCode1 varchar(max),
+ExclusionCode2 varchar(max),
+ExclusionCode3 varchar(max),
+ExclusionCode4 varchar(max),
+ExclusionCode5 varchar(max),
+ExclusionCode6 varchar(max),
+ExclusionCode7 varchar(max),
+ExclusionCode8 varchar(max),
+ExclusionCode9 varchar(max),
+ExclusionCode10 varchar(max),
+ReasonCode1 varchar(max),
+ReasonCode2 varchar(max),
+ReasonCode3 varchar(max),
+ReasonCode4 varchar(max),
+ReasonCode5 varchar(max),
+ErrorCode varchar(max),
+address varchar(max),
+StateCode varchar(max),
+PINCode varchar(max),
+address_cat varchar(max),
+res_code varchar(max),
+DateReported_address varchar(max),
+MemberShortName varchar(max),
+Enr_Enq_pa varchar(max),
+ReportingMemberShortName varchar(max),
+AccountNumber varchar(max),
+AccountType varchar(max),
+OwnershipIndicator varchar(max),
+DateOpenedDisbursed varchar(max),
+DateofLastPayment varchar(max),
+DateClosed varchar(max),
+DateReported_trades varchar(max),
+HighCreditSanctionedAmount varchar(max),
+CurrentBalance varchar(max),
+AmountOverdue varchar(max),
+Paymt_hst_01 varchar(max),
+Paymt_hst_02 varchar(max),
+Paymt_hst_03 varchar(max),
+Paymt_hst_04 varchar(max),
+Paymt_hst_05 varchar(max),
+Paymt_hst_06 varchar(max),
+Paymt_hst_07 varchar(max),
+Paymt_hst_08 varchar(max),
+Paymt_hst_09 varchar(max),
+Paymt_hst_10 varchar(max),
+Paymt_hst_11 varchar(max),
+Paymt_hst_12 varchar(max),
+Paymt_hst_13 varchar(max),
+Paymt_hst_14 varchar(max),
+Paymt_hst_15 varchar(max),
+Paymt_hst_16 varchar(max),
+Paymt_hst_17 varchar(max),
+Paymt_hst_18 varchar(max),
+Paymt_hst_19 varchar(max),
+Paymt_hst_20 varchar(max),
+Paymt_hst_21 varchar(max),
+Paymt_hst_22 varchar(max),
+Paymt_hst_23 varchar(max),
+Paymt_hst_24 varchar(max),
+Paymt_hst_25 varchar(max),
+Paymt_hst_26 varchar(max),
+Paymt_hst_27 varchar(max),
+Paymt_hst_28 varchar(max),
+Paymt_hst_29 varchar(max),
+Paymt_hst_30 varchar(max),
+Paymt_hst_31 varchar(max),
+Paymt_hst_32 varchar(max),
+Paymt_hst_33 varchar(max),
+Paymt_hst_34 varchar(max),
+Paymt_hst_35 varchar(max),
+Paymt_hst_36 varchar(max),
+Pay_Hist_Start_Date varchar(max),
+pay_hist_end_date varchar(max),
+suit_filed_status varchar(max),
+Credit_Facility_Status varchar(max),
+collateral_type varchar(max),
+collateral_value varchar(max),
+credit_limit varchar(max),
+cash_limit varchar(max),
+ROI varchar(max),
+tenure varchar(max),
+emi_amt varchar(max),
+writeoff_amt_tot varchar(max),
+writeoff_amt_prin varchar(max),
+settlement_amt varchar(max),
+paymt_freq varchar(max),
+actual_paymt_amt varchar(max),
+DateofEntry_ErrorCode_tl varchar(max),
+ErrorCode_tl varchar(max),
+Date_CIBILRemarksCode_tl varchar(max),
+CIBILRemarksCode_tl varchar(max),
+DisputeRemarksCode_tl varchar(max),
+DisputeRemarksCode1_tl varchar(max),
+DisputeRemarksCode2_tl varchar(max),
+DateofEnquiry varchar(max),
+EnquiringMemberShortName varchar(max),
+EnquiryPurpose varchar(max),
+EnquiryAmount varchar(max),
+DisputeRemarksLine1 varchar(max),
+DisputeRemarksLine2 varchar(max),
+DisputeRemarksLine3 varchar(max),
+DisputeRemarksLine4 varchar(max),
+DisputeRemarksLine5 varchar(max),
+DisputeRemarksLine6 varchar(max)
+);
+
+
+
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub_2023-08-18/SB93209999_CIRBATCH_17082023_Sample_Data_Angel_1L_18-08-2023-11-08-06_CV_STD_71_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+  Drop table nbu.stg_cibil_data;
+create table nbu.stg_cibil_data ( 
+  Segment varchar(max),
+Version varchar(max),
+MemberReference varchar(max),
+EnquiryMemberID varchar(max),
+SubjectReturnCode varchar(max),
+EnquiryControlNumber varchar(max),
+DateProcessed varchar(max),
+TimeProcessed varchar(max),
+name varchar(max),
+DateofBirth varchar(max),
+gender varchar(max),
+ID_Type varchar(max),
+ID_Number varchar(max),
+Issue_Date varchar(max),
+Expiration_Date varchar(max),
+Enr_Enq_id varchar(max),
+Telephone varchar(max),
+Tel_Extn varchar(max),
+Tel_Type varchar(max),
+Enr_Enq_pt varchar(max),
+email_id varchar(max),
+account_type_empseg varchar(max),
+datereported_employment varchar(max),
+occupation_code varchar(max),
+income varchar(max),
+net_gross_indicator varchar(max),
+monthly_annual_indicator varchar(max),
+DateofEntry_ErrorCode_em varchar(max),
+ErrorCode_em varchar(max),
+Date_CIBILRemarksCode_em varchar(max),
+CIBILRemarksCode_em varchar(max),
+DisputeRemarksCode_em varchar(max),
+DisputeRemarksCode1_em varchar(max),
+DisputeRemarksCode2_em varchar(max),
+Acct_number varchar(max),
+scorename varchar(max),
+ScoreCardName varchar(max),
+ScoreCardVersion varchar(max),
+ScoreDate varchar(max),
+score varchar(max),
+ExclusionCode1 varchar(max),
+ExclusionCode2 varchar(max),
+ExclusionCode3 varchar(max),
+ExclusionCode4 varchar(max),
+ExclusionCode5 varchar(max),
+ExclusionCode6 varchar(max),
+ExclusionCode7 varchar(max),
+ExclusionCode8 varchar(max),
+ExclusionCode9 varchar(max),
+ExclusionCode10 varchar(max),
+ReasonCode1 varchar(max),
+ReasonCode2 varchar(max),
+ReasonCode3 varchar(max),
+ReasonCode4 varchar(max),
+ReasonCode5 varchar(max),
+ErrorCode varchar(max),
+address varchar(max),
+StateCode varchar(max),
+PINCode varchar(max),
+address_cat varchar(max),
+res_code varchar(max),
+DateReported_address varchar(max),
+MemberShortName varchar(max),
+Enr_Enq_pa varchar(max),
+ReportingMemberShortName varchar(max),
+AccountNumber varchar(max),
+AccountType varchar(max),
+OwnershipIndicator varchar(max),
+DateOpenedDisbursed varchar(max),
+DateofLastPayment varchar(max),
+DateClosed varchar(max),
+DateReported_trades varchar(max),
+HighCreditSanctionedAmount varchar(max),
+CurrentBalance varchar(max),
+AmountOverdue varchar(max),
+Paymt_hst_01 varchar(max),
+Paymt_hst_02 varchar(max),
+Paymt_hst_03 varchar(max),
+Paymt_hst_04 varchar(max),
+Paymt_hst_05 varchar(max),
+Paymt_hst_06 varchar(max),
+Paymt_hst_07 varchar(max),
+Paymt_hst_08 varchar(max),
+Paymt_hst_09 varchar(max),
+Paymt_hst_10 varchar(max),
+Paymt_hst_11 varchar(max),
+Paymt_hst_12 varchar(max),
+Paymt_hst_13 varchar(max),
+Paymt_hst_14 varchar(max),
+Paymt_hst_15 varchar(max),
+Paymt_hst_16 varchar(max),
+Paymt_hst_17 varchar(max),
+Paymt_hst_18 varchar(max),
+Paymt_hst_19 varchar(max),
+Paymt_hst_20 varchar(max),
+Paymt_hst_21 varchar(max),
+Paymt_hst_22 varchar(max),
+Paymt_hst_23 varchar(max),
+Paymt_hst_24 varchar(max),
+Paymt_hst_25 varchar(max),
+Paymt_hst_26 varchar(max),
+Paymt_hst_27 varchar(max),
+Paymt_hst_28 varchar(max),
+Paymt_hst_29 varchar(max),
+Paymt_hst_30 varchar(max),
+Paymt_hst_31 varchar(max),
+Paymt_hst_32 varchar(max),
+Paymt_hst_33 varchar(max),
+Paymt_hst_34 varchar(max),
+Paymt_hst_35 varchar(max),
+Paymt_hst_36 varchar(max),
+Pay_Hist_Start_Date varchar(max),
+pay_hist_end_date varchar(max),
+suit_filed_status varchar(max),
+Credit_Facility_Status varchar(max),
+collateral_type varchar(max),
+collateral_value varchar(max),
+credit_limit varchar(max),
+cash_limit varchar(max),
+ROI varchar(max),
+tenure varchar(max),
+emi_amt varchar(max),
+writeoff_amt_tot varchar(max),
+writeoff_amt_prin varchar(max),
+settlement_amt varchar(max),
+paymt_freq varchar(max),
+actual_paymt_amt varchar(max),
+DateofEntry_ErrorCode_tl varchar(max),
+ErrorCode_tl varchar(max),
+Date_CIBILRemarksCode_tl varchar(max),
+CIBILRemarksCode_tl varchar(max),
+DisputeRemarksCode_tl varchar(max),
+DisputeRemarksCode1_tl varchar(max),
+DisputeRemarksCode2_tl varchar(max),
+DateofEnquiry varchar(max),
+EnquiringMemberShortName varchar(max),
+EnquiryPurpose varchar(max),
+EnquiryAmount varchar(max),
+DisputeRemarksLine1 varchar(max),
+DisputeRemarksLine2 varchar(max),
+DisputeRemarksLine3 varchar(max),
+DisputeRemarksLine4 varchar(max),
+DisputeRemarksLine5 varchar(max),
+DisputeRemarksLine6 varchar(max),
+filename varchar(max)
+);
+
+
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub_2023-08-18'
+FROM nbu.stg_cibil_data_temp;
+
+
+
+____________________________________
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2023-11-11/SB93209999_CIRBATCH_14112023_Customer_Sample_Angelone_3L-20230418497_16-11-2023-03-00-21_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT 
+    *,'scrub-2023-11-11'
+FROM nbu.stg_cibil_data_temp;
+
+___________________________________________
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2023-12-05/tradeline_data.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2023-12-05'
+FROM nbu.stg_cibil_data_temp;
+
+
+_________________________________________________
+
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2024-01-09/SB93209999_CIRBATCH_04012023_Cust_Sample_revised_Angelone_3L-20230419787_04-01-2024-08-33-25_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2024-01-09'
+FROM nbu.stg_cibil_data_temp;
+
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2024-01-09/SB93209999_CIRBATCH_AngelOne_Customer_Sample_49859_2023-01-04_revised_04-01-2024-10-46-21_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2024-01-09'
+FROM nbu.stg_cibil_data_temp;
+
+
+________________________________________________
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2024-01-11/SB93209999_CIRBATCH_09012024_Customer_Sample_28337_AngelOne_28K-20230419889_09-01-2024-07-53-03_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2024-01-11'
+FROM nbu.stg_cibil_data_temp;
+
+
+
+____________________________________________________
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2024-01-30/SB93209999_CIRBATCH_30012024_Customer_Sample_Angelone_6L-20240420388_01_30-01-2024-03-26-47_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2024-01-30'
+FROM nbu.stg_cibil_data_temp;
+
+
+truncate table "digital-revenue"."nbu"."stg_cibil_data_temp";
+COPY  "digital-revenue"."nbu"."stg_cibil_data_temp" FROM
+ 's3://angelone-nbu/cibil/scrub-2024-01-30/SB93209999_CIRBATCH_30012024_Customer_Sample_Angelone_6L-20240420388_02_30-01-2024-03-26-54_BCC_STD_CIR.csv'
+ IAM_ROLE 'arn:aws:iam::555445901246:role/analytics-redshift-glue-role'
+  DELIMITER ','  ignoreheader 1 REMOVEQUOTES BLANKSASNULL  EMPTYASNULL
+
+
+
+Insert into nbu.stg_cibil_data
+SELECT
+    *,'scrub-2024-01-30'
+FROM nbu.stg_cibil_data_temp;
+
+
+
+
+
+--ALTER TABLE nbu.stg_cibil_data ADD COLUMN response_id VARCHAR(36);
+
+--UPDATE nbu.stg_cibil_data SET response_id = md5(response_id_value::text);

@@ -1,0 +1,246 @@
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub_2023-08-18/SB93209999_CIRBATCH_17082023_Sample_Data_Angel_1L_18-08-2023-11-08-06_CV_STD_71_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub_2023-08-18/scrub_mapping_2023-08-17.csv'
+
+_________________________
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2023-11-11/SB93209999_CIRBATCH_14112023_Customer_Sample_Angelone_3L-20230418497_16-11-2023-03-00-21'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2023-11-11/scrub_mapping_2023-11-11.csv'
+
+
+_________________________
+
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2023-12-05/tradeline_data.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2023-12-05/scrub_mapping_2023-12-05.csv'
+
+
+______________________________
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2024-01-09/SB93209999_CIRBATCH_04012023_Cust_Sample_revised_Angelone_3L-20230419787_04-01-2024-08-33-25_BCC_STD_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2024-01-09/scrub_mapping_3l_2024-01-04.csv'
+
+
+________________________
+
+
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2024-01-09/SB93209999_CIRBATCH_AngelOne_Customer_Sample_49859_2023-01-04_revised_04-01-2024-10-46-21_BCC_STD_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2024-01-09/scrub_mapping_49k_2024-01-04.csv'
+
+____________________________
+
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2024-01-11/SB93209999_CIRBATCH_09012024_Customer_Sample_28337_AngelOne_28K-20230419889_09-01-2024-07-53-03_BCC_STD_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2024-01-11/scrub_mapping_2024-01-08.csv'
+
+____________________________
+
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2024-01-30/SB93209999_CIRBATCH_30012024_Customer_Sample_Angelone_6L-20240420388_01_30-01-2024-03-26-47_BCC_STD_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2024-01-30/scrub_mapping_2024-01-30.csv'
+
+
+____________________________
+
+
+
+insert into nbu.cibil_master_table
+with cte as(
+select distinct
+memberreference,
+segment ,
+cast(version as int) ,
+ enquirymemberid  ,
+ cast(subjectreturncode as int) ,
+ enquirycontrolnumber  ,
+to_date(LPAD(TRIM(BOTH ' ' FROM dateprocessed), 8, '0') , 'DDMMYYYY') as dateprocessed,
+TO_CHAR(TO_TIMESTAMP(timeprocessed, 'HH24MISS'), 'HH24:MI:SS') as timeprocessed,
+getdate() as inserted_at, getdate()  as updated_at 
+from nbu.stg_cibil_data
+where 
+filename = 's3://angelone-nbu/cibil/scrub-2024-01-30/SB93209999_CIRBATCH_30012024_Customer_Sample_Angelone_6L-20240420388_02_30-01-2024-03-26-54_BCC_STD_CIR.csv'
+)
+select cast(cte.memberreference as int),cte.segment,cte.version,cte.enquirymemberid,cte.subjectreturncode,cte.enquirycontrolnumber,
+cte.dateprocessed,cte.timeprocessed,cast(cte.inserted_at as date),cast(cte.updated_at as date)
+ ,"date_uploaded","data_provider","party_code" from
+  cte left join nbu.stg_scrub_mapping as scrub on cte.memberreference = scrub."memberreference" 
+  where 
+  file_name ='s3://angelone-nbu/cibil/scrub-2024-01-30/scrub_mapping_2024-01-30.csv'
+
+
+ALTER TABLE nbu.cibil_master_table
+ADD COLUMN id INT;
+
+-- Step 2: Update the id column using ROW_NUMBER()
+WITH RankedRows AS (
+    SELECT
+        party_code,
+        dateprocessed,
+        MemberReference,
+        ROW_NUMBER() OVER (ORDER BY party_code, dateprocessed, MemberReference) AS row_num
+    FROM nbu.cibil_master_table
+)
+UPDATE nbu.cibil_master_table
+SET id = RankedRows.row_num
+FROM RankedRows
+WHERE nbu.cibil_master_table.party_code = RankedRows.party_code
+  AND nbu.cibil_master_table.dateprocessed = RankedRows.dateprocessed
+  AND nbu.cibil_master_table.MemberReference = RankedRows.MemberReference;
+
+
+ALTER TABLE nbu.cibil_master_table
+ADD COLUMN response_id VARCHAR(50);
+
+-- Step 2: Update the new column with the desired values
+UPDATE nbu.cibil_master_table
+SET response_id = party_code || '-' || TO_CHAR(dateprocessed, 'DDMMYYYY') || '-' || MemberReference;
+
+
